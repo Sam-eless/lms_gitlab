@@ -1,0 +1,159 @@
+[
+  {
+    "model": "lms.course",
+    "fields": {
+      "title": "Java",
+      "preview": "course/nophoto.png",
+      "description": "язык программирования похуже",
+      "is_active": true
+    }
+  },
+  {
+    "model": "lms.course",
+    "fields": {
+      "title": "1С",
+      "preview": "course/nophoto.png",
+      "description": "1C Программирование",
+      "is_active": true
+    }
+  },
+  {
+    "model": "lms.course",
+    "fields": {
+      "title": "Javascript",
+      "preview": "course/nophoto.png",
+      "description": "Javascript программирование",
+      "is_active": true
+    }
+  },
+  {
+    "model": "lms.course",
+    "fields": {
+      "title": "Ruby",
+      "preview": "course/nophoto.png",
+      "description": "Ruby",
+      "is_active": true
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "fields": {
+      "title": "python_django",
+      "preview": "lesson/nophoto.png",
+      "description": "неинтересный урок",
+      "is_active": true,
+      "url": null,
+      "course": 2
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "fields": {
+      "title": "Вводный урок",
+      "preview": "lesson/nophoto.png",
+      "description": "Интересный урок",
+      "is_active": true,
+      "url": null,
+      "course": 3
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "fields": {
+      "title": "Основы 1С",
+      "preview": "lesson/nophoto.png",
+      "description": "Интересный урок",
+      "is_active": true,
+      "url": null,
+      "course": 3
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "fields": {
+      "title": "Почему 1С это боль",
+      "preview": "lesson/nophoto.png",
+      "description": "Интересный урок",
+      "is_active": true,
+      "url": null,
+      "course": 3
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "fields": {
+      "title": "Вводный урок",
+      "preview": "lesson/nophoto.png",
+      "description": "Интересный урок",
+      "is_active": true,
+      "url": null,
+      "course": 4
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "fields": {
+      "title": "Вводный урок",
+      "preview": "lesson/nophoto.png",
+      "description": "Интересный урок",
+      "is_active": true,
+      "url": null,
+      "course": 5
+    }
+  },
+  {
+    "model": "lms.payment",
+    "fields": {
+      "user": 1,
+      "payment_date": "2022-01-01T12:00:00Z",
+      "course": 2,
+      "lesson": null,
+      "amount": "35000.00",
+      "payment_method": "cash"
+    }
+  },
+  {
+    "model": "lms.payment",
+    "fields": {
+      "user": 2,
+      "payment_date": "2022-01-02T12:00:00Z",
+      "course": null,
+      "lesson": 3,
+      "amount": "50000.00",
+      "payment_method": "transfer"
+    }
+  },
+  {
+    "model": "lms.payment",
+    "fields": {
+      "user": 3,
+      "payment_date": "2022-01-02T12:00:00Z",
+      "course": null,
+      "lesson": 3,
+      "amount": "50000.00",
+      "payment_method": "transfer"
+    }
+  },
+  {
+    "model": "lms.payment",
+    "fields": {
+      "user": 4,
+      "payment_date": "2022-01-02T12:00:00Z",
+      "course": 2,
+      "lesson": null,
+      "amount": "5000.00",
+      "payment_method": "transfer"
+    }
+  },
+  {
+    "model": "lms.payment",
+    "fields": {
+      "user": 5,
+      "payment_date": "2022-01-02T12:00:00Z",
+      "course": null,
+      "lesson": 3,
+      "amount": "10000.00",
+      "payment_method": "cash"
+    }
+  }
+]
