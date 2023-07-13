@@ -4,6 +4,7 @@ from rest_framework import routers
 from lms.views.course import *
 from lms.views.lesson import *
 from lms.views.payment import *
+from lms.views.subscription import SubscriptionCreateView, SubscriptionDeleteView
 
 urlpatterns = [
     # Lessons
@@ -15,6 +16,10 @@ urlpatterns = [
 
     # Payment
     path('payment/', PaymentListView.as_view()),
+
+    # Subscription
+    path('course/<int:pk>/create/', SubscriptionCreateView.as_view()),
+    path('course/<int:pk>/delete/', SubscriptionDeleteView.as_view()),
 
 ]
 
