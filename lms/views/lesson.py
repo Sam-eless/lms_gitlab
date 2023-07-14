@@ -2,8 +2,9 @@ from rest_framework.generics import RetrieveAPIView, DestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from lms.models import Lesson
+from lms.pagination import CustomPagination
 from lms.permissions import OwnerOrStuff
-from lms.serrializers.lesson import LessonSerializer, LessonListSerializer
+from lms.serrializers.lesson import LessonSerializer
 
 
 class LessonDetailView(RetrieveAPIView):
@@ -14,15 +15,19 @@ class LessonDetailView(RetrieveAPIView):
 
 class LessonListView(ListAPIView):
     serializer_class = LessonSerializer
-    # serializer_class = LessonListSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, OwnerOrStuff]
+    pagination_class = CustomPagination
 
 
 class LessonCreateView(CreateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+
     permission_classes = [IsAuthenticated, OwnerOrStuff]
+    # def create(self, request, *args, **kwargs):
+    #     print(request.data)  # Проверяем данные из запроса
+    #     return super().create(request, *args, **kwargs)
 
 
 class LessonUpdateView(UpdateAPIView):
