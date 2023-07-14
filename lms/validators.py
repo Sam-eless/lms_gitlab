@@ -6,6 +6,7 @@ class UrlValidator:
         self.field = field
 
     def __call__(self, value):
-        if "youtube.com" not in value.get("url"):
-            print(value.get("url"))
-            raise serializers.ValidationError("Not youtube url in this video")
+        if value.get("url") is not None:
+            if "youtube.com" not in value.get("url"):
+                print(value.get("url"))
+                raise serializers.ValidationError("Not youtube url in this video")

@@ -16,15 +16,18 @@ class LessonDetailView(RetrieveAPIView):
 class LessonListView(ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    # permission_classes = [IsAuthenticated, OwnerOrStuff]
+    permission_classes = [IsAuthenticated, OwnerOrStuff]
     pagination_class = CustomPagination
 
 
 class LessonCreateView(CreateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    # permission_classes = [IsAuthenticated, OwnerOrStuff]
 
+    permission_classes = [IsAuthenticated, OwnerOrStuff]
+    # def create(self, request, *args, **kwargs):
+    #     print(request.data)  # Проверяем данные из запроса
+    #     return super().create(request, *args, **kwargs)
 
 
 class LessonUpdateView(UpdateAPIView):
