@@ -93,25 +93,19 @@ class CourseSubscriptionTests(APITestCase):
 
         self.course = Course.objects.create(title="Java2")
 
-    def test_subscribe_to_course(self):
+    def test_1_subscribe_to_course(self):
         response = self.client.post(reverse('create_subscribe', kwargs={'pk': self.course.pk}), format='json')
         subscription = Subscription.objects.get(user=self.user, course=self.course)
         self.assertTrue(subscription.is_active)
 
-    def test_get_course_with_subscription(self):
-        response = self.client.get(reverse('course-detail', kwargs={'pk': self.course.pk}))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = CourseSerializer(instance=self.course, context={'request': response.wsgi_request})
-        self.assertEqual(response.data, serializer.data)
-
-    def test_unsubscribe_from_course(self):
+    def test_2_unsubscribe_from_course(self):
         subscription_new = Subscription.objects.create(user=self.user, course=self.course, is_active=True)
         response = self.client.delete(reverse('delete_subscribe', kwargs={'pk': subscription_new.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         subscription_new.refresh_from_db()
         self.assertFalse(subscription_new.is_active)
 
-    def test_is_subscribed_to_course(self):
+    def test_3_is_subscribed_to_course(self):
         subscription = Subscription.objects.create(user=self.user, course=self.course, is_active=True)
         response = self.client.get(reverse('course-detail', kwargs={'pk': self.course.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -120,3 +114,9 @@ class CourseSubscriptionTests(APITestCase):
         subscription.save()
         response = self.client.get(reverse('course-detail', kwargs={'pk': self.course.pk}))
         self.assertFalse(response.data['is_subscribed'])
+
+    def test_4_get_course_with_subscription(self):
+        response = self.client.get(reverse('course-detail', kwargs={'pk': self.course.pk}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        serializer = CourseSerializer(instance=self.course, context={'request': response.wsgi_request})
+        self.assertEqual(response.data, serializer.data)
