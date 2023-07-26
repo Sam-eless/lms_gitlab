@@ -1,15 +1,18 @@
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from lms.models import Course, Subscription
+from lms.serrializers.subscription import SubscriptionSerializer
 
 
 class SubscriptionCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(responses={200: SubscriptionSerializer()})
     def post(self, request, pk):
         course = get_object_or_404(Course, id=pk)
         subscription, created = Subscription.objects.get_or_create(user=request.user, course=course)
