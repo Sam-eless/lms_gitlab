@@ -13,6 +13,7 @@ class Course(models.Model):
     description = models.TextField(verbose_name='Описание', **NULLABLE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кем создана', **NULLABLE)
     is_active = models.BooleanField(default=True, verbose_name='активен')
+    price = models.IntegerField(default=0, verbose_name="Стоимость курса")
 
     class Meta:
         verbose_name = 'Курс'
@@ -48,6 +49,11 @@ class Payment(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='Оплаченный урок', **NULLABLE)
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма оплаты')
     payment_method = models.CharField(max_length=10, choices=PAYMENT_METHOD_CHOICES, verbose_name='Способ оплаты')
+
+    payment_intent_id = models.CharField(max_length=150, **NULLABLE, verbose_name='id намерения платежа')
+    payment_method_id = models.CharField(max_length=150, **NULLABLE, verbose_name='id метода платежа')
+    status = models.CharField(max_length=150, **NULLABLE, verbose_name='cтатус платежа')
+    is_payment_confirmed = models.BooleanField(default=False, verbose_name='платеж подтвержден')
 
     class Meta:
         verbose_name = 'Платеж'
