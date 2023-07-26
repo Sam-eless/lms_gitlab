@@ -16,6 +16,10 @@ urlpatterns = [
 
     # Payment
     path('payment/', PaymentListView.as_view()),
+    path('payment/payment-intent-create/', PaymentIntentCreateView.as_view(), name='payment_intent_create'),
+    path('payment/payment-method-create/', PaymentMethodCreateView.as_view(), name='payment_method_create'),
+    path('payment/payment-confirm/', PaymentIntentConfirmView.as_view(), name='payment_confirm'),
+    path('payment/payment-detail/', PaymentIntentDetailView.as_view(), name='payment_detail'),
 
     # Subscription
     path('course/<int:pk>/create/', SubscriptionCreateView.as_view(), name="create_subscribe"),
