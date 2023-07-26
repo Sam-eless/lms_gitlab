@@ -25,18 +25,19 @@ class StripeAPI:
             ('metadata[user_id]', user.id)
         ]
         response = requests.post(f'{cls.url}/payment_intents', headers=cls.headers, data=data)
-        if response.status_code != 200:
-            raise Exception(f'Намерение платежа не создано : {response.json()["error"]["message"]}')
+        response_data = response.json()
 
-        payment_intent = response.json()
-        payment = Payment.objects.create(
+        if response.status_code != 200:
+            raise Exception(f'Намерение платежа не создано : {response_data["error"]["message"]}')
+
+        Payment.objects.create(
             user=user,
             course=course,
             amount=amount,
-            payment_intent_id=payment_intent['id'],
-            status=payment_intent['status']
+            payment_intent_id=response_data['id'],
+            status=response_data['status']
         )
-        return payment_intent
+        return response_data
 
     @classmethod
     def create_payment_method(cls, payment_token):
@@ -48,7 +49,7 @@ class StripeAPI:
         payment_method = response.json()
 
         if response.status_code != 200:
-            raise Exception(f'Платеж не создан: {response.json()["error"]["message"]}')
+            raise Exception(f'Платеж не создан: {response_data["error"]["message"]}')
 
         return payment_method
 
@@ -61,7 +62,7 @@ class StripeAPI:
         response_data = response.json()
 
         if response.status_code != 200:
-            raise Exception(f'Метод оплаты не удалось привязать к платежу: {response.json()["error"]["message"]}')
+            raise Exception(f'Метод оплаты не удалось привязать к платежу: {response_data["error"]["message"]}')
             # Более полный текст ошибки, нужен для отладки
             # raise Exception(f'Метод оплаты не удалось привязать к платежу: {response.json()["error"]}')
 
@@ -87,7 +88,7 @@ class StripeAPI:
                 payment.save()
                 raise Exception(f"Платеж с id {payment_intent_id} уже подтвержден")
             else:
-                raise Exception(f'{response.json()["error"]["message"]}')
+                raise Exception(f'{response_data["error"]["message"]}')
                 # Более полный текст ошибки для отладки
                 # raise Exception(f'Платеж не подтвержден: {response.json()["error"]}')
 

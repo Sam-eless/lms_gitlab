@@ -21,7 +21,7 @@ class PaymentIntentCreateSerializer(serializers.Serializer):
     def validate(self, value):
         course_id = value['course_id']
         try:
-            course = Course.objects.get(id=course_id)
+            Course.objects.get(id=course_id)
         except ObjectDoesNotExist:
             raise serializers.ValidationError(f"Курс c id {course_id} не найден")
         return value
@@ -62,7 +62,7 @@ class PaymentIntentDetailSerializer(serializers.Serializer):
     def validate(self, value):
         payment_intent_id = value['payment_intent_id']
         try:
-            payment = Payment.objects.get(payment_intent_id=payment_intent_id)
+            Payment.objects.get(payment_intent_id=payment_intent_id)
         except ObjectDoesNotExist:
             raise serializers.ValidationError(f"платеж с id - {payment_intent_id} не найден")
         return value
