@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status, serializers
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import RetrieveAPIView, DestroyAPIView, ListAPIView, UpdateAPIView, CreateAPIView
@@ -23,6 +24,7 @@ class PaymentListView(ListAPIView):
 class PaymentIntentCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(responses={200: PaymentIntentCreateSerializer()})
     def post(self, request, *args, **kwargs):
         serializer = PaymentIntentCreateSerializer(data=request.data)
         if serializer.is_valid():
@@ -42,6 +44,7 @@ class PaymentIntentCreateView(generics.CreateAPIView):
 class PaymentMethodCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(responses={200: PaymentMethodCreateSerializer()})
     def post(self, request, *args, **kwargs):
         serializer = PaymentMethodCreateSerializer(data=request.data)
         if serializer.is_valid():
@@ -60,6 +63,7 @@ class PaymentMethodCreateView(generics.CreateAPIView):
 class PaymentIntentConfirmView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(responses={200: PaymentIntentConfirmSerializer()})
     def post(self, request, *args, **kwargs):
 
         serializer = PaymentIntentConfirmSerializer(data=request.data)
@@ -78,6 +82,7 @@ class PaymentIntentConfirmView(generics.CreateAPIView):
 class PaymentIntentDetailView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(responses={200: PaymentIntentDetailSerializer()})
     def get(self, request, *args, **kwargs):
 
         serializer = PaymentIntentDetailSerializer(data=request.data)
