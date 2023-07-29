@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from lms.models import Course, Subscription
 from lms.permissions import OwnerOrStuff
 from lms.serrializers.course import CourseSerializer
-from lms.services.mailing_subscription import mailing_by_subscriptions
+from lms.services.services import mailing_by_subscriptions
 from lms.tasks import mailing_by_update_course
 
 

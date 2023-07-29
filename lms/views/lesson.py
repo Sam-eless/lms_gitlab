@@ -8,7 +8,7 @@ from lms.models import Lesson, Course, Subscription
 from lms.pagination import CustomPagination
 from lms.permissions import OwnerOrStuff
 from lms.serrializers.lesson import LessonSerializer
-from lms.services.mailing_subscription import mailing_by_subscriptions
+from lms.services.services import mailing_by_subscriptions
 from lms.tasks import mailing_by_update_course
 
 
