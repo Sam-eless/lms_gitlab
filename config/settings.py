@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
     'rest_framework',
     'django_filters',
     'rest_framework_simplejwt',
@@ -163,6 +164,14 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_TIMEZONE = "Australia/Tasmania"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'lms.tasks.check_last_login_user',
+        'schedule': timedelta(minutes=1),
+    },
+}
+
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
