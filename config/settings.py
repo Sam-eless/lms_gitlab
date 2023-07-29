@@ -166,13 +166,15 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
-    'task-name': {
+    'check_last_login_user': {
         'task': 'lms.tasks.check_last_login_user',
-        'schedule': timedelta(minutes=1),
+        'schedule': timedelta(minutes=60 * 12),
     },
+    # 'scheduled_check_status_payment': {
+    #     'task': 'lms.tasks.scheduled_check_status_payment',
+    #     'schedule': timedelta(minutes=1),
+    # }
 }
-
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.yandex.ru"
@@ -183,4 +185,3 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 # SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
-
