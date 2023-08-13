@@ -87,9 +87,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lms',
-        'USER': 'postgres',
-        'PASSWORD': os.getenv('DB_PASSWORD')
+        # 'NAME': 'lms',
+        # 'USER': 'postgres',
+        # 'PASSWORD': os.getenv('DB_PASSWORD')
+        'NAME': os.getenv('POSTGRES_DB'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+
     }
 }
 
@@ -126,6 +132,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = 'staticfiles/'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
@@ -135,8 +142,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
-# LOGIN_REDIRECT_URL = '/mailing/'
-# LOGOUT_REDIRECT_URL = '/mailing/'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
@@ -168,7 +174,8 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BEAT_SCHEDULE = {
     'check_last_login_user': {
         'task': 'lms.tasks.check_last_login_user',
-        'schedule': timedelta(minutes=60 * 12),
+        # 'schedule': timedelta(minutes=60 * 12),
+        'schedule': timedelta(minutes=1),
     },
     # 'scheduled_check_status_payment': {
     #     'task': 'lms.tasks.scheduled_check_status_payment',
