@@ -11,11 +11,14 @@ services:
       - ./data/db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    restart: always
     healthcheck:
       test: [ 'CMD-SHELL', 'pg_isready' ]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      some_network:
 
   redis:
     image: redis:7.0.2-alpine
@@ -23,17 +26,22 @@ services:
     command: redis-server --save 20 1 --loglevel warning
     hostname: redis
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - ./data/cache/:/data
+    networks:
+      some_network:
 
   app:
     build:
       context: .
       dockerfile: ./Dockerfile
-    network_mode: host
+#    network_mode: host
+    networks:
+      some_network:
     image: app
     container_name: app_container
+    restart: always
     depends_on:
       db:
         condition: service_healthy
@@ -53,19 +61,38 @@ services:
   celery_worker:
     build:
       context: .
-    container_name: 'celery_worker'
-    network_mode: host
+    container_name: "celery_worker"
+#    network_mode: host
     image: app
     command: celery -A config worker -l INFO
+    restart: always
     volumes:
       - .:/app
+#    links:
+#      - redis
+    depends_on:
+      - app
+      - redis
+    networks:
+      some_network:
 
   celery_beat:
     build:
       context: .
-    container_name: 'celery_beat'
-    network_mode: host
+    container_name: "celery_beat"
+#    network_mode: host
     image: app
     command: celery -A config beat -l INFO
+    restart: always
     volumes:
       - .:/app
+#    links:
+#      - redis
+    depends_on:
+      - app
+      - redis
+    networks:
+      some_network:
+
+networks:
+  some_network:
