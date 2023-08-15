@@ -103,7 +103,14 @@ class StripeAPI:
         response = requests.get(url, headers=cls.headers)
         response_data = response.json()
 
-        if response.status_code != 200:
+        if response.status_code == 200:
+            if payment.status == 'succeeded' and payment.is_payment_confirmed is False:
+                payment.is_payment_confirmed = True
+                payment.save()
+                # Здесь можно сделать отправку письма на адрес администратора.
+                print(f'Платеж пользователя {payment.user.email} по курсу {payment.course.title} подтвержден')
+
+        else:
             raise Exception(f'{response_data["error"]["message"]}')
             # Более полный текст ошибки для отладки
             # raise Exception(f'{response.json()["error"]}')

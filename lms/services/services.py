@@ -3,6 +3,8 @@ from datetime import date, timedelta, datetime
 from django.core.mail import send_mail
 
 from config import settings
+from lms.models import Payment
+from lms.services.stripe_api import StripeAPI
 from users.models import User
 
 
@@ -34,3 +36,9 @@ def deactivation_user_after_month():
                 user.is_active = False
                 print(f'Последний раз юзер заходил больше месяца назад - {user.last_login.date()}.')
                 print(f'Юзер {user.first_name} {user.last_name}, {user.email}  деактивирован')
+
+
+def check_status_payment():
+    payments = Payment.objects.all()
+    for payment in payments:
+        StripeAPI.retrieve_payment_intent(payment_intent_id=payment.payment_intent_id)
