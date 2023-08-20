@@ -6,7 +6,5 @@ Deploy to prod:
     script:
         - cp $ENV_PROD .env
         - bash deployment_script.sh
-    only:
-        - master
     tags:
         - prod
