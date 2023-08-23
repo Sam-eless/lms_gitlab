@@ -99,5 +99,18 @@ services:
     networks:
       some_network:
 
+  django_gunicorn:
+    volumes:
+      - static:/static
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+
 networks:
   some_network:
+
+volumes:
+  static:
