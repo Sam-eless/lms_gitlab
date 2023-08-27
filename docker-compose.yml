@@ -62,6 +62,8 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - ./static:/app/static
+      - ./media:/app/media
     command: >
       bash -c "python manage.py makemigrations
       && python manage.py migrate
