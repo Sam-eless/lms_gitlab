@@ -11,7 +11,7 @@ COPY ./entrypoint /
 
 RUN chmod +x entrypoint
 
-# RUN sed -i 's/\r$//g' /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
 
 RUN chmod +x /entrypoint
 
