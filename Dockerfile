@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 
-RUN pip install psycopg2-binary
 RUN pip install -r requirements.txt
 
 COPY . /app/
