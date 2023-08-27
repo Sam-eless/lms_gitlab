@@ -6,4 +6,4 @@
 #python3 manage.py migrate
 #python3 manage.py collectstatic --noinput
 #deactivate
-docker-compose up
+#docker-compose up
