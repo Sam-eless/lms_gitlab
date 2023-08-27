@@ -120,3 +120,4 @@ networks:
 volumes:
   static:
   media:
+  pg_data:
