@@ -68,8 +68,8 @@ services:
       bash -c "python manage.py makemigrations
       && python manage.py migrate
       && python manage.py collectstatic --no-input
-      && gunicorn config.wsgi:application --timeout 0 --bind 0.0.0.0:8000
-      && python manage.py csu"
+      && python manage.py csu
+      && gunicorn config.wsgi:application --timeout 0 --bind 0.0.0.0:8000"
 
   celery_worker:
     build:
