@@ -9,7 +9,6 @@ services:
       - ./.env
     volumes:
       - pg_data:/var/lib/postgresql/data
-      - ./postgresql.conf:/etc/postgresql/postgresql.conf
     ports:
       - "5432:5432"
     restart: always
@@ -18,8 +17,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      some_network:
+
 
   redis:
     image: redis:7.0.2-alpine
@@ -29,22 +27,17 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./data/cache/:/data
+      - redis_data:/data
     healthcheck:
       test: redis-cli ping
       interval: 5s
       timeout: 5s
       retries: 20
-    networks:
-      some_network:
 
   app:
     build:
       context: .
       dockerfile: ./Dockerfile
-#    network_mode: host
-    networks:
-      some_network:
     image: app
     container_name: app_container
     restart: always
@@ -53,20 +46,15 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
-#    depends_on:
-#      - db
-#      - redis
     env_file:
       - ./.env
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
-      - ./static:/app/static
-      - ./media:/app/media
+      - static:/app/static
+      - media:/app/media
     command: >
-      bash -c "python manage.py makemigrations
-      && python manage.py migrate
+      bash -c "python manage.py migrate
       && python manage.py collectstatic --no-input
       && python manage.py csu
       && gunicorn config.wsgi:application --timeout 0 --bind 0.0.0.0:8000"
@@ -75,53 +63,38 @@ services:
     build:
       context: .
     container_name: "celery_worker"
-#    network_mode: host
     image: app
     command: celery -A config worker -l INFO
     restart: always
-    volumes:
-      - .:/app
-#    links:
-#      - redis
     depends_on:
       - app
       - redis
-    networks:
-      some_network:
 
   celery_beat:
     build:
       context: .
     container_name: "celery_beat"
-#    network_mode: host
     image: app
     command: celery -A config beat -l INFO
     restart: always
-    volumes:
-      - .:/app
-#    links:
-#      - redis
     depends_on:
       - app
       - redis
-    networks:
-      some_network:
 
   nginx:
     build: ./nginx
     container_name: nginx
     volumes:
-      - ./static:/static
-      - ./media:/media
+      - static:/static
+      - media:/media
     ports:
       - "80:80"
     depends_on:
       - app
 
-networks:
-  some_network:
 
 volumes:
   static:
   media:
   pg_data:
+  redis_data:
